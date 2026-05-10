@@ -2,56 +2,78 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Smart Bot</title>
+<title>Ultra Smart Bot</title>
 
 <style>
 body{
   margin:0;
   font-family:Arial;
-  background:linear-gradient(135deg,#0a0a0a,#1a0000);
+  background:linear-gradient(135deg,#0a0a0a,#200000);
   color:white;
   text-align:center;
 }
 
-h2{margin-top:15px;}
+/* جهاز */
+.device{
+  margin-top:10px;
+  font-size:14px;
+  color:#aaa;
+}
 
+/* شكل الشات */
 #chat{
   height:70vh;
   overflow:auto;
   padding:10px;
 }
 
+/* الرسائل */
+.msg{
+  margin:10px;
+  padding:12px;
+  border-radius:12px;
+  background:#1c1c1c;
+  text-align:right;
+}
+
+.user{color:#00ff99;}
+.ai{color:#ff4d4d;}
+
+/* typing dots */
+.dots span{
+  animation:blink 1s infinite;
+}
+.dots span:nth-child(2){animation-delay:0.2s;}
+.dots span:nth-child(3){animation-delay:0.4s;}
+
+@keyframes blink{
+  0%{opacity:0.2;}
+  50%{opacity:1;}
+  100%{opacity:0.2;}
+}
+
+/* input */
 input{
   width:65%;
   padding:12px;
   border-radius:10px;
   border:none;
 }
-
 button{
   padding:12px;
-  border:none;
   border-radius:10px;
+  border:none;
   background:#b30000;
   color:white;
 }
-
-.msg{
-  margin:10px;
-  padding:10px;
-  border-radius:10px;
-  background:#222;
-}
-
-.user{color:#00ff99;}
-.ai{color:#ff4444;}
 </style>
-
 </head>
 
 <body>
 
-<h2>🤖 Smart Bot</h2>
+<h2>🤖 Ultra Smart Bot</h2>
+
+<div id="device" class="device"></div>
 
 <div id="chat"></div>
 
@@ -60,66 +82,82 @@ button{
 
 <script>
 
-function bot(text){
-  text = text.toLowerCase();
+// جهاز المستخدم
+function detectDevice(){
+  let ua = navigator.userAgent;
 
-  // ترحيب
-  if(text.match(/(سلام|هلا|مرحبا|اهلا)/)){
-    return "هلا 👋 كيف أقدر أساعدك؟";
+  if(/Mobi|Android/i.test(ua)){
+    return "📱 أنت تستخدم جوال";
+  } else {
+    return "💻 أنت تستخدم كمبيوتر";
   }
-
-  // سؤال عن الحال
-  if(text.includes("كيف")){
-    return "أنا تمام 👍 وأنت كيفك؟";
-  }
-
-  // الاسم
-  if(text.includes("اسم")){
-    return "أنا بوت ذكي بسيط 🤖 أساعدك في أي شيء أقدر عليه";
-  }
-
-  // ألعاب
-  if(text.includes("ببجي")){
-    return "🔥 ببجي لعبة قوية! وش أكثر شي تحبه فيها؟";
-  }
-
-  // طلب مساعدة
-  if(text.includes("ساعد")){
-    return "أكيد 👍 قل لي وش مشكلتك وأنا أحاول أساعدك";
-  }
-
-  // سؤال عام
-  if(text.includes("وش") || text.includes("ايش")){
-    return "سؤالك واضح شوي 👍 بس وضحه أكثر وأنا أفهمك";
-  }
-
-  // وداع
-  if(text.includes("وداع") || text.includes("باي")){
-    return "مع السلامة 👋";
-  }
-
-  // رد ذكي بدل "ما فهمت"
-  return "👍 فهمت عليك بشكل بسيط، وضّح أكثر أو عطيني مثال وأنا أرد عليك بشكل أفضل";
 }
 
+document.getElementById("device").innerText = detectDevice();
+
+// ذكاء أقوى (تحليل كلمات أكثر)
+function brain(text){
+  text = text.toLowerCase();
+
+  if(text.match(/(سلام|هلا|مرحبا)/))
+    return "هلا فيك 👋 نور المكان";
+
+  if(text.includes("كيفك"))
+    return "تمام 👍 وانت كيفك؟";
+
+  if(text.includes("احبك"))
+    return "💙 وأنا أقدرك! وش خلاك تقول كذا؟";
+
+  if(text.includes("اسمك"))
+    return "أنا بوت ذكي مطوّر 🤖 أتعلم من كلامك";
+
+  if(text.includes("ببجي"))
+    return "🔥 ببجي؟ وش أفضل سلاح عندك فيها؟";
+
+  if(text.includes("ساعد"))
+    return "أكيد 👍 قول لي المشكلة بالتفصيل";
+
+  if(text.includes("وش") || text.includes("ايش"))
+    return "وضح أكثر 👍 أنا أحاول أفهمك";
+
+  if(text.includes("وداع") || text.includes("باي"))
+    return "في أمان الله 👋";
+
+  return "💡 فهمت جزء من كلامك، حاول توضحه أكثر أو عطيني مثال";
+}
+
+// typing animation
+function typing(){
+  return `<div class="msg ai">
+  🤖 يكتب
+  <div class="dots">
+    <span>.</span><span>.</span><span>.</span>
+  </div>
+  </div>`;
+}
+
+// إرسال
 function send(){
   let input = document.getElementById("input").value;
-
   if(!input) return;
 
   document.getElementById("chat").innerHTML +=
   `<div class="msg user">أنت: ${input}</div>`;
 
-  let reply = bot(input);
+  document.getElementById("chat").innerHTML += typing();
 
   setTimeout(()=>{
-    document.getElementById("chat").innerHTML +=
-    `<div class="msg ai">🤖: ${reply}</div>`;
-  },400);
+    let reply = brain(input);
+
+    let chat = document.getElementById("chat");
+    chat.lastChild.remove();
+
+    chat.innerHTML +=
+    `<div class="msg ai">🤖 ${reply}</div>`;
+  },700);
 
   document.getElementById("input").value="";
 }
-
 </script>
 
 </body>
