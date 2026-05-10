@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>PUBG 🪖 System</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#0d0d0d;
+  color:white;
+  text-align:center;
+}
+
+.header{
+  background:#d10000;
+  padding:20px;
+  font-size:24px;
+  font-weight:bold;
+}
+
+.card{
+  background:#1c1c1c;
+  margin:20px;
+  padding:15px;
+  border-radius:12px;
+}
+
+button{
+  padding:12px 25px;
+  margin:10px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:16px;
+}
+
+.yes{background:green;color:white;}
+.no{background:#444;color:white;}
+
+#loading{
+  display:none;
+  font-size:20px;
+  margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">ببجي 🪖</div>
+
+<div class="card">
+  <h3>الموقع يرغب بتفعيل امن معلوماتك، هل تسمح؟</h3>
+
+  <button class="yes" onclick="allow()">نعم</button>
+  <button class="no" onclick="deny()">لا</button>
+
+  <div id="loading">Loading...</div>
+</div>
+
+<div class="card" id="info"></div>
+
+<script>
+
+function deviceInfo(){
+  return {
+    "الجهاز": navigator.userAgent,
+    "اللغة": navigator.language,
+    "حجم الشاشة": window.screen.width + " x " + window.screen.height,
+    "النظام": navigator.platform,
+    "الاتصال": navigator.onLine ? "متصل" : "غير متصل"
+  };
+}
+
+function showInfo(extra=""){
+  let data = deviceInfo();
+  let out = "";
+
+  for(let k in data){
+    out += `<p><b>${k}:</b> ${data[k]}</p>`;
+  }
+
+  if(extra){
+    out += extra;
+  }
+
+  document.getElementById("info").innerHTML = out;
+}
+
+function allow(){
+  document.getElementById("loading").style.display="block";
+  showInfo();
+
+  navigator.geolocation.getCurrentPosition((pos)=>{
+    document.getElementById("info").innerHTML += `
+      <p><b>📍 الموقع:</b> ${pos.coords.latitude}, ${pos.coords.longitude}</p>
+    `;
+    document.getElementById("loading").style.display="none";
+  },()=>{
+    document.getElementById("loading").innerText="تم رفض الموقع";
+  });
+}
+
+function deny(){
+  document.getElementById("loading").style.display="none";
+  showInfo("<p style='color:red'>تم الرفض، تم عرض البيانات الأساسية فقط</p>");
+}
+
+</script>
+
+</body>
+</html>
