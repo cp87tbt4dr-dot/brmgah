@@ -2,123 +2,87 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>PUBG Secure UI</title>
-
+<title>AI Bot</title>
 <style>
 body{
   margin:0;
   font-family:Arial;
-  background:linear-gradient(135deg,#0a0a0a,#1a0000);
+  background:#0f0f0f;
   color:white;
   text-align:center;
 }
-
-.header{
-  background:#b30000;
-  padding:20px;
-  font-size:26px;
-  font-weight:bold;
-  letter-spacing:2px;
+#chat{
+  height:70vh;
+  overflow:auto;
+  padding:10px;
 }
-
-.card{
-  margin:20px;
-  padding:20px;
-  background:#1c1c1c;
-  border-radius:15px;
-  box-shadow:0 0 15px rgba(255,0,0,0.3);
+input{
+  width:70%;
+  padding:10px;
 }
-
 button{
-  padding:12px 25px;
+  padding:10px;
+}
+.msg{
   margin:10px;
-  border:none;
-  border-radius:10px;
-  font-size:16px;
-  cursor:pointer;
-  transition:0.3s;
-}
-
-button:hover{
-  transform:scale(1.1);
-}
-
-.yes{background:green;color:white;}
-.no{background:#444;color:white;}
-
-#loading{
-  display:none;
-  font-size:20px;
-  margin-top:15px;
-  color:#ff4444;
-  animation:blink 1s infinite;
-}
-
-@keyframes blink{
-  50%{opacity:0.3;}
-}
-
-.box{
-  margin-top:20px;
-  padding:15px;
-  background:#111;
+  padding:10px;
+  background:#222;
   border-radius:10px;
 }
+.user{color:#00ff99;}
+.ai{color:#ff4444;}
 </style>
 </head>
 
 <body>
 
-<div class="header">ببجي 🪖 Secure Panel</div>
+<h2>🤖 بوت ذكي بسيط</h2>
 
-<div class="card">
-  <h3>هل تسمح للموقع بعرض معلومات الجهاز العامة؟</h3>
+<div id="chat"></div>
 
-  <button class="yes" onclick="allow()">سماح</button>
-  <button class="no" onclick="deny()">رفض</button>
-
-  <div id="loading">Loading...</div>
-
-  <div class="box" id="info"></div>
-</div>
+<input id="input" placeholder="اكتب شيء...">
+<button onclick="send()">إرسال</button>
 
 <script>
 
-function showBasic(){
-  return {
-    "نوع الجهاز": navigator.userAgent,
-    "اللغة": navigator.language,
-    "حجم الشاشة": window.screen.width + "x" + window.screen.height,
-    "النظام": navigator.platform
-  };
-}
+function botReply(text){
+  text = text.toLowerCase();
 
-function allow(){
-  document.getElementById("loading").style.display="block";
-
-  let data = showBasic();
-  let out="";
-
-  for(let k in data){
-    out += `<p>${k}: ${data[k]}</p>`;
+  if(text.includes("سلام") || text.includes("هلا")){
+    return "هلا فيك 👋 كيف أقدر أساعدك؟";
   }
 
-  document.getElementById("info").innerHTML = out;
+  if(text.includes("كيفك")){
+    return "تمام 👍 وانت كيفك؟";
+  }
 
-  navigator.geolocation.getCurrentPosition((pos)=>{
-    document.getElementById("info").innerHTML +=
-    `<p>📍 موقع تقريبي: ${pos.coords.latitude.toFixed(2)}, ${pos.coords.longitude.toFixed(2)}</p>`;
+  if(text.includes("اسمك")){
+    return "أنا بوت بسيط 🤖 جاهز أساعدك";
+  }
 
-    document.getElementById("loading").style.display="none";
-  },()=>{
-    document.getElementById("loading").innerText="تم رفض الموقع";
-  });
+  if(text.includes("ببجي")){
+    return "🔥 ببجي لعبة ممتعة! تحبها؟";
+  }
+
+  if(text.includes("وداع")){
+    return "مع السلامة 👋";
+  }
+
+  return "ما فهمت عليك 🤔 لكن حاول تكتب بطريقة أوضح";
 }
 
-function deny(){
-  document.getElementById("info").innerHTML =
-  "<p style='color:red'>تم الرفض، لا يتم عرض أي بيانات حساسة</p>";
-  document.getElementById("loading").style.display="none";
+function send(){
+  let input = document.getElementById("input").value;
+
+  document.getElementById("chat").innerHTML +=
+  `<div class="msg user">أنت: ${input}</div>`;
+
+  let reply = botReply(input);
+
+  setTimeout(()=>{
+    document.getElementById("chat").innerHTML +=
+    `<div class="msg ai">AI: ${reply}</div>`;
+  },500);
 }
 
 </script>
