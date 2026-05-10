@@ -2,44 +2,85 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Ultra Smart Bot</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart AI</title>
 
 <style>
 body{
   margin:0;
   font-family:Arial;
-  background:linear-gradient(135deg,#0a0a0a,#200000);
+  background:#0b0b0b;
   color:white;
+}
+
+/* عنوان */
+h2{
+  margin:10px;
   text-align:center;
 }
 
-/* جهاز */
+/* الجهاز */
 .device{
-  margin-top:10px;
-  font-size:14px;
+  text-align:center;
   color:#aaa;
+  font-size:13px;
 }
 
-/* شكل الشات */
+/* الشات */
 #chat{
-  height:70vh;
+  height:78vh;
   overflow:auto;
   padding:10px;
 }
 
 /* الرسائل */
 .msg{
-  margin:10px;
+  margin:8px 0;
   padding:12px;
   border-radius:12px;
-  background:#1c1c1c;
+  max-width:85%;
+  word-wrap:break-word;
+}
+
+.user{
+  background:#004d40;
+  margin-left:auto;
   text-align:right;
 }
 
-.user{color:#00ff99;}
-.ai{color:#ff4d4d;}
+.ai{
+  background:#1c1c1c;
+  margin-right:auto;
+}
 
-/* typing dots */
+/* input */
+.inputBar{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  display:flex;
+  background:#111;
+  padding:10px;
+}
+
+input{
+  flex:1;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+}
+
+button{
+  margin-right:8px;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  background:#b30000;
+  color:white;
+}
+
+/* typing */
 .dots span{
   animation:blink 1s infinite;
 }
@@ -51,112 +92,80 @@ body{
   50%{opacity:1;}
   100%{opacity:0.2;}
 }
-
-/* input */
-input{
-  width:65%;
-  padding:12px;
-  border-radius:10px;
-  border:none;
-}
-button{
-  padding:12px;
-  border-radius:10px;
-  border:none;
-  background:#b30000;
-  color:white;
-}
 </style>
 </head>
 
 <body>
 
-<h2>🤖 Ultra Smart Bot</h2>
-
-<div id="device" class="device"></div>
+<h2>🤖 Smart AI Bot</h2>
+<div class="device" id="device"></div>
 
 <div id="chat"></div>
 
-<input id="input" placeholder="اكتب أي شيء...">
-<button onclick="send()">إرسال</button>
+<div class="inputBar">
+<input id="input" placeholder="اكتب هنا...">
+<button onclick="send()">➤</button>
+</div>
 
 <script>
 
-// جهاز المستخدم
-function detectDevice(){
-  let ua = navigator.userAgent;
+document.getElementById("device").innerText =
+/Mobi|Android/i.test(navigator.userAgent)
+? "📱 جوال"
+: "💻 كمبيوتر";
 
-  if(/Mobi|Android/i.test(ua)){
-    return "📱 أنت تستخدم جوال";
-  } else {
-    return "💻 أنت تستخدم كمبيوتر";
-  }
-}
-
-document.getElementById("device").innerText = detectDevice();
-
-// ذكاء أقوى (تحليل كلمات أكثر)
+// ذكاء مطوّر (أوسع فهم)
 function brain(text){
   text = text.toLowerCase();
 
-  if(text.match(/(سلام|هلا|مرحبا)/))
-    return "هلا فيك 👋 نور المكان";
+  // ترحيب
+  if(/(سلام|هلا|مرحبا|اهلا)/.test(text))
+    return "هلا 👋 كيف أقدر أساعدك اليوم؟";
 
-  if(text.includes("كيفك"))
-    return "تمام 👍 وانت كيفك؟";
-
+  // حب
   if(text.includes("احبك"))
-    return "💙 وأنا أقدرك! وش خلاك تقول كذا؟";
+    return "💙 وأنا أقدرك! ليه قلت كذا؟";
 
-  if(text.includes("اسمك"))
-    return "أنا بوت ذكي مطوّر 🤖 أتعلم من كلامك";
+  // كيفك
+  if(text.includes("كيف"))
+    return "تمام 👍 قل لي وش تحتاج";
 
+  // اسم
+  if(text.includes("اسم"))
+    return "أنا بوت ذكي بسيط 🤖 أتعلم من كلامك";
+
+  // ألعاب
   if(text.includes("ببجي"))
-    return "🔥 ببجي؟ وش أفضل سلاح عندك فيها؟";
+    return "🔥 ببجي؟ وش أكثر شي تحبه فيها؟";
 
-  if(text.includes("ساعد"))
-    return "أكيد 👍 قول لي المشكلة بالتفصيل";
+  // سؤال عام
+  if(text.includes("ليش") || text.includes("كيف") || text.includes("وش"))
+    return "💡 حاول توضّح أكثر بس أنا أحاول أفهمك";
 
-  if(text.includes("وش") || text.includes("ايش"))
-    return "وضح أكثر 👍 أنا أحاول أفهمك";
-
-  if(text.includes("وداع") || text.includes("باي"))
-    return "في أمان الله 👋";
-
-  return "💡 فهمت جزء من كلامك، حاول توضحه أكثر أو عطيني مثال";
+  return "👍 فهمت جزء من كلامك، وضّح أكثر وأنا أرد عليك بشكل أفضل";
 }
 
-// typing animation
+// typing
 function typing(){
-  return `<div class="msg ai">
-  🤖 يكتب
-  <div class="dots">
-    <span>.</span><span>.</span><span>.</span>
-  </div>
-  </div>`;
+  return `<div class="msg ai">🤖 يكتب <span class="dots"><span>.</span><span>.</span><span>.</span></span></div>`;
 }
 
-// إرسال
 function send(){
-  let input = document.getElementById("input").value;
-  if(!input) return;
+  let input = document.getElementById("input");
+  let text = input.value;
+  if(!text) return;
 
-  document.getElementById("chat").innerHTML +=
-  `<div class="msg user">أنت: ${input}</div>`;
+  let chat = document.getElementById("chat");
 
-  document.getElementById("chat").innerHTML += typing();
+  chat.innerHTML += `<div class="msg user">${text}</div>`;
+  chat.innerHTML += typing();
 
   setTimeout(()=>{
-    let reply = brain(input);
-
-    let chat = document.getElementById("chat");
     chat.lastChild.remove();
+    chat.innerHTML += `<div class="msg ai">${brain(text)}</div>`;
+  },600);
 
-    chat.innerHTML +=
-    `<div class="msg ai">🤖 ${reply}</div>`;
-  },700);
-
-  document.getElementById("input").value="";
+  input.value="";
 }
 </script>
 
