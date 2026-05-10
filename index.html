@@ -1,113 +1,18 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Chat</title>
+async function sendMessage() {
+  let input = document.getElementById("input").value;
 
-<style>
-body{
-  margin:0;
-  font-family:Arial;
-  background:#0b0b0b;
-  color:white;
-}
+  if (!input) return;
 
-h2{
-  text-align:center;
-  margin:10px;
-}
-
-#chat{
-  height:80vh;
-  overflow:auto;
-  padding:10px;
-}
-
-.msg{
-  margin:8px;
-  padding:10px;
-  border-radius:10px;
-  max-width:80%;
-}
-
-.user{
-  background:#00695c;
-  margin-left:auto;
-}
-
-.ai{
-  background:#1c1c1c;
-  margin-right:auto;
-}
-
-.inputBar{
-  position:fixed;
-  bottom:0;
-  width:100%;
-  display:flex;
-  background:#111;
-  padding:10px;
-}
-
-input{
-  flex:1;
-  padding:12px;
-  border:none;
-  border-radius:8px;
-  font-size:16px;
-}
-
-button{
-  padding:12px;
-  margin-left:8px;
-  border:none;
-  border-radius:8px;
-  background:#b30000;
-  color:white;
-}
-</style>
-</head>
-
-<body>
-
-<h2>🤖 AI Chat Bot</h2>
-
-<div id="chat"></div>
-
-<div class="inputBar">
-<input id="input" placeholder="اكتب رسالة...">
-<button onclick="send()">➤</button>
-</div>
-
-<script>
-
-async function send(){
-  let input = document.getElementById("input");
-  let text = input.value;
-  if(!text) return;
-
-  // عرض رسالة المستخدم
-  document.getElementById("chat").innerHTML +=
-  `<div class="msg user">${text}</div>`;
-
-  input.value="";
-
-  // طلب API
-  let res = await fetch("/.netlify/functions/chat", {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({ message: text })
+  const res = await fetch("http://212.132.99.151:9844/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ message: input })
   });
 
-  let data = await res.json();
+  const data = await res.json();
 
-  // عرض رد البوت
   document.getElementById("chat").innerHTML +=
-  `<div class="msg ai">🤖 ${data.reply}</div>`;
+    `<div>🤖 ${data.reply}</div>`;
 }
-
-</script>
-
-</body>
-</html>
