@@ -2,87 +2,122 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>AI Bot</title>
+<title>Smart Bot</title>
+
 <style>
 body{
   margin:0;
   font-family:Arial;
-  background:#0f0f0f;
+  background:linear-gradient(135deg,#0a0a0a,#1a0000);
   color:white;
   text-align:center;
 }
+
+h2{margin-top:15px;}
+
 #chat{
   height:70vh;
   overflow:auto;
   padding:10px;
 }
+
 input{
-  width:70%;
-  padding:10px;
+  width:65%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
 }
+
 button{
-  padding:10px;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  background:#b30000;
+  color:white;
 }
+
 .msg{
   margin:10px;
   padding:10px;
-  background:#222;
   border-radius:10px;
+  background:#222;
 }
+
 .user{color:#00ff99;}
 .ai{color:#ff4444;}
 </style>
+
 </head>
 
 <body>
 
-<h2>🤖 بوت ذكي بسيط</h2>
+<h2>🤖 Smart Bot</h2>
 
 <div id="chat"></div>
 
-<input id="input" placeholder="اكتب شيء...">
+<input id="input" placeholder="اكتب أي شيء...">
 <button onclick="send()">إرسال</button>
 
 <script>
 
-function botReply(text){
+function bot(text){
   text = text.toLowerCase();
 
-  if(text.includes("سلام") || text.includes("هلا")){
-    return "هلا فيك 👋 كيف أقدر أساعدك؟";
+  // ترحيب
+  if(text.match(/(سلام|هلا|مرحبا|اهلا)/)){
+    return "هلا 👋 كيف أقدر أساعدك؟";
   }
 
-  if(text.includes("كيفك")){
-    return "تمام 👍 وانت كيفك؟";
+  // سؤال عن الحال
+  if(text.includes("كيف")){
+    return "أنا تمام 👍 وأنت كيفك؟";
   }
 
-  if(text.includes("اسمك")){
-    return "أنا بوت بسيط 🤖 جاهز أساعدك";
+  // الاسم
+  if(text.includes("اسم")){
+    return "أنا بوت ذكي بسيط 🤖 أساعدك في أي شيء أقدر عليه";
   }
 
+  // ألعاب
   if(text.includes("ببجي")){
-    return "🔥 ببجي لعبة ممتعة! تحبها؟";
+    return "🔥 ببجي لعبة قوية! وش أكثر شي تحبه فيها؟";
   }
 
-  if(text.includes("وداع")){
+  // طلب مساعدة
+  if(text.includes("ساعد")){
+    return "أكيد 👍 قل لي وش مشكلتك وأنا أحاول أساعدك";
+  }
+
+  // سؤال عام
+  if(text.includes("وش") || text.includes("ايش")){
+    return "سؤالك واضح شوي 👍 بس وضحه أكثر وأنا أفهمك";
+  }
+
+  // وداع
+  if(text.includes("وداع") || text.includes("باي")){
     return "مع السلامة 👋";
   }
 
-  return "ما فهمت عليك 🤔 لكن حاول تكتب بطريقة أوضح";
+  // رد ذكي بدل "ما فهمت"
+  return "👍 فهمت عليك بشكل بسيط، وضّح أكثر أو عطيني مثال وأنا أرد عليك بشكل أفضل";
 }
 
 function send(){
   let input = document.getElementById("input").value;
 
+  if(!input) return;
+
   document.getElementById("chat").innerHTML +=
   `<div class="msg user">أنت: ${input}</div>`;
 
-  let reply = botReply(input);
+  let reply = bot(input);
 
   setTimeout(()=>{
     document.getElementById("chat").innerHTML +=
-    `<div class="msg ai">AI: ${reply}</div>`;
-  },500);
+    `<div class="msg ai">🤖: ${reply}</div>`;
+  },400);
+
+  document.getElementById("input").value="";
 }
 
 </script>
