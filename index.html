@@ -1,7 +1,28 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Chat Bot</title>
+</head>
+
+<body>
+
+<h2>🤖 AI Chat</h2>
+
+<div id="chat"></div>
+
+<input id="input" placeholder="اكتب هنا">
+<button onclick="sendMessage()">إرسال</button>
+
+<script>
+
 async function sendMessage() {
   let input = document.getElementById("input").value;
 
   if (!input) return;
+
+  document.getElementById("chat").innerHTML +=
+    `<div>👤 ${input}</div>`;
 
   const res = await fetch("http://212.132.99.151:9844/chat", {
     method: "POST",
@@ -16,3 +37,8 @@ async function sendMessage() {
   document.getElementById("chat").innerHTML +=
     `<div>🤖 ${data.reply}</div>`;
 }
+
+</script>
+
+</body>
+</html>
