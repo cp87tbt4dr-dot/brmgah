@@ -3,90 +3,128 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Apps Store</title>
+
+<title>Harper Hack iOS</title>
 
 <style>
 body{
     margin:0;
     background:#000;
     font-family:Arial;
+    overflow:hidden;
     color:white;
+}
+
+/* الصفحة الأولى */
+#splash{
+    position:absolute;
+    width:100%;
+    height:100%;
     display:flex;
     flex-direction:column;
+    justify-content:center;
     align-items:center;
+    transition:1s;
 }
 
-/* العنوان */
-h1{
-    margin:20px;
+.title{
+    font-size:40px;
+    font-weight:bold;
 }
 
-/* المربعات */
-.app{
-    width:90%;
-    max-width:350px;
-    background:#111;
-    margin:10px;
-    padding:15px;
-    border-radius:20px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    transition:0.2s;
+.sub{
+    font-size:16px;
+    margin-top:10px;
+    opacity:0.7;
 }
 
-.app:active{
-    transform:scale(0.95);
-}
-
-/* اسم التطبيق */
-.name{
-    font-size:20px;
-}
-
-/* زر التنزيل */
-button{
-    background:#0A84FF;
+#enterBtn{
+    margin-top:30px;
+    background:white;
+    color:black;
     border:none;
-    padding:10px 18px;
-    border-radius:12px;
-    color:white;
+    padding:12px 30px;
+    border-radius:15px;
+    font-size:18px;
     cursor:pointer;
     transition:0.2s;
 }
 
-button:active{
+#enterBtn:active{
     transform:scale(0.9);
+}
+
+/* الصفحة الثانية */
+#main{
+    position:absolute;
+    top:100%;
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transition:1s;
+    flex-direction:column;
+}
+
+.download{
+    background:white;
+    color:black;
+    border:none;
+    padding:12px 30px;
+    border-radius:15px;
+    font-size:18px;
+    cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<h1>Apps Store</h1>
+<!-- شاشة البداية -->
+<div id="splash">
+    <div class="title">harper hack ios</div>
+    <div class="sub">مرحبا بك</div>
 
-<!-- سناب -->
-<div class="app">
-    <div class="name">Snapchat</div>
-    <button onclick="download('snapchat.ipa')">تنزيل</button>
+    <button id="enterBtn" onclick="enterSite()">
+        دخول
+    </button>
 </div>
 
-<!-- مثال ثاني -->
-<div class="app">
-    <div class="name">Instagram</div>
-    <button onclick="download('instagram.ipa')">تنزيل</button>
+<!-- الصفحة الرئيسية -->
+<div id="main">
+
+    <h2>Snapchat</h2>
+
+    <button class="download" onclick="downloadFile()">
+        تنزيل
+    </button>
+
 </div>
 
 <script>
-function download(file){
 
-    // صوت عند الضغط
+function enterSite(){
+
+    // صوت
     let audio = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
     audio.play();
 
-    // تحميل الملف
-    window.location.href = file;
+    // حركة انتقال
+    document.getElementById("splash").style.top = "-100%";
+    document.getElementById("main").style.top = "0";
+
 }
+
+function downloadFile(){
+
+    let audio = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
+    audio.play();
+
+    window.location.href = "snapchat.ipa";
+
+}
+
 </script>
 
 </body>
