@@ -1,224 +1,156 @@
-
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Harper Hack iOS</title>
+<title>Store</title>
 
 <style>
 body{
     margin:0;
     background:#000;
     font-family:Arial;
-    overflow:hidden;
     color:white;
-}
-
-/* العنوان العلوي */
-#topTitle{
-    position:absolute;
-    top:15px;
-    width:100%;
-    text-align:center;
-    font-size:22px;
-    font-weight:bold;
-}
-
-/* الصفحة الأولى */
-#login{
-    position:absolute;
-    width:100%;
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    transition:0.8s;
-}
-
-.bigTitle{
-    font-size:40px;
-    font-weight:bold;
-}
-
-.sub{
-    opacity:0.7;
-    margin-top:10px;
-}
-
-input{
-    margin-top:20px;
-    padding:10px;
-    border-radius:10px;
-    border:none;
-    text-align:center;
-}
-
-button{
-    margin-top:15px;
-    background:white;
-    color:black;
-    border:none;
-    padding:10px 25px;
-    border-radius:12px;
-}
-
-/* الصفحة الثانية */
-#main{
-    position:absolute;
-    top:100%;
-    width:100%;
-    height:100%;
-    transition:0.8s;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    padding-top:60px;
 }
 
 .app{
     width:90%;
     max-width:400px;
+    margin:15px auto;
     background:#111;
     padding:15px;
-    margin:10px;
     border-radius:20px;
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
 
-.upload{
-    background:#444;
-    color:white;
+button{
+    border:none;
+    padding:8px 12px;
+    border-radius:10px;
+    cursor:pointer;
 }
 
-.download{
-    background:#0A84FF;
-    color:white;
-}
+.upload{background:#444;color:white;}
+.download{background:#0A84FF;color:white;}
 
-/* رسالة النسخ */
-#copied{
-    position:fixed;
-    bottom:30px;
-    background:#111;
-    padding:10px 20px;
-    border-radius:12px;
-    display:none;
+.locked{
+    opacity:0.4;
+    pointer-events:none;
 }
 </style>
 </head>
 
 <body>
 
-<!-- العنوان -->
-<div id="topTitle" onclick="copyLink()">
-Harper Hack iOS
-</div>
-
-<!-- صفحة الدخول -->
-<div id="login">
-
-    <div class="bigTitle">harper hack ios</div>
-    <div class="sub">مرحبا بك</div>
-
-    <input type="password" id="pass" placeholder="كلمة السر">
-
-    <button onclick="enter()">دخول</button>
-
-</div>
-
-<!-- الصفحة الرئيسية -->
-<div id="main">
-
-    <div class="app">
-        <div>Snapchat</div>
-        <div>
-            <button class="upload" onclick="selectFile('snap')">رفع</button>
-            <button class="download" onclick="download('snap')">تنزيل</button>
-        </div>
+<div class="app">
+    <div>Snapchat</div>
+    <div>
+        <button id="uploadBtn" class="upload" onclick="checkAccess('snap')">رفع</button>
+        <button class="download" onclick="download('snap')">تنزيل</button>
     </div>
-
 </div>
-
-<div id="copied">تم النسخ ✅</div>
 
 <input type="file" id="file" style="display:none">
 
 <script>
 
-let files = {};
+let files = JSON.parse(localStorage.getItem("files") || "{}");
+
+let wrong = parseInt(localStorage.getItem("wrong") || "0");
+let lockTime = parseInt(localStorage.getItem("lock") || "0");
+
 let current = "";
 
-/* دخول + حفظ كلمة السر */
-function enter(){
+/* رفع */
+function checkAccess(app){
 
-    let pass = document.getElementById("pass").value;
+    let now = Date.now();
 
-    if(pass !== "0617i3z"){
-        alert("كلمة السر خطأ ❌");
+    if(lockTime && now < lockTime){
+        alert("تم قفل الزر لمدة ساعة ❌");
         return;
     }
 
-    localStorage.setItem("auth","ok");
+    let pass = prompt("ادخل كلمة السر:");
 
-    document.getElementById("login").style.top = "-100%";
-    document.getElementById("main").style.top = "0";
-}
+    if(pass === "0617i3z"){
 
-/* إذا كان داخل مسبقًا */
-window.onload = function(){
-    if(localStorage.getItem("auth") === "ok"){
-        document.getElementById("login").style.top = "-100%";
-        document.getElementById("main").style.top = "0";
+        wrong = 0;
+        localStorage.setItem("wrong","0");
+
+        current = app;
+        document.getElementById("file").click();
+
+    }else{
+
+        wrong++;
+        localStorage.setItem("wrong",wrong);
+
+        alert("كلمة السر خطأ ❌");
+
+        if(wrong >= 3){
+            let lock = Date.now() + (60 * 60 * 1000); // ساعة
+            localStorage.setItem("lock",lock);
+
+            document.getElementById("uploadBtn").classList.add("locked");
+            alert("تم قفل الزر لمدة ساعة 🚫");
+        }
     }
-};
-
-/* رفع ملف */
-function selectFile(app){
-    current = app;
-    document.getElementById("file").click();
 }
 
-/* حفظ الملف */
+/* حفظ ملف دائم */
 document.getElementById("file").onchange = function(e){
-    files[current] = e.target.files[0];
-    alert("تم رفع الملف ✔️");
+
+    let file = e.target.files[0];
+
+    let reader = new FileReader();
+
+    reader.onload = function(){
+        files[current] = {
+            name:file.name,
+            data:reader.result
+        };
+
+        localStorage.setItem("files",JSON.stringify(files));
+
+        alert("تم رفع الملف ✔️");
+    };
+
+    reader.readAsDataURL(file);
 };
 
-/* تنزيل */
+/* تحميل */
 function download(app){
 
     let file = files[app];
 
     if(!file){
-        alert("مافي نسخه منه الحين");
+        alert("ما فيه نسخه");
         return;
     }
 
-    let url = URL.createObjectURL(file);
-
     let a = document.createElement("a");
-    a.href = url;
+    a.href = file.data;
     a.download = file.name;
     a.click();
 }
 
-/* نسخ الرابط */
-function copyLink(){
+/* فك القفل بعد ساعة */
+setInterval(()=>{
 
-    navigator.clipboard.writeText("https://t.me/ipa_Harper");
+    let now = Date.now();
 
-    let msg = document.getElementById("copied");
-    msg.style.display = "block";
+    if(lockTime && now > lockTime){
+        localStorage.removeItem("lock");
+        localStorage.removeItem("wrong");
 
-    setTimeout(()=>{
-        msg.style.display = "none";
-    },2000);
-}
+        document.getElementById("uploadBtn").classList.remove("locked");
+    }
+
+},5000);
 
 </script>
 
