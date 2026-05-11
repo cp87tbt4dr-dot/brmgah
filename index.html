@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Harper Hack iOS</title>
+<title>Store</title>
 
 <style>
 body{
@@ -15,7 +15,7 @@ body{
     color:white;
 }
 
-/* البداية */
+/* الصفحة الأولى */
 #splash{
     position:absolute;
     width:100%;
@@ -24,16 +24,15 @@ body{
     flex-direction:column;
     justify-content:center;
     align-items:center;
-    transition:1s;
+    transition:0.8s;
 }
 
 .title{
-    font-size:42px;
+    font-size:40px;
     font-weight:bold;
 }
 
 .sub{
-    font-size:16px;
     opacity:0.7;
     margin-top:10px;
 }
@@ -45,28 +44,25 @@ body{
     border:none;
     padding:12px 30px;
     border-radius:15px;
-    font-size:18px;
 }
 
-/* الصفحة الرئيسية */
+/* الصفحة الثانية */
 #main{
     position:absolute;
     top:100%;
     width:100%;
     height:100%;
-    transition:1s;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    padding-top:50px;
+    transition:0.8s;
+    overflow-y:auto;
+    padding-top:40px;
 }
 
-/* المربع */
+/* تطبيق */
 .app{
     width:90%;
-    max-width:350px;
+    max-width:400px;
+    margin:10px auto;
     background:#111;
-    margin:10px;
     padding:15px;
     border-radius:20px;
     display:flex;
@@ -79,57 +75,60 @@ body{
     transform:scale(0.95);
 }
 
-/* الأزرار */
+/* أزرار */
 button{
-    background:#0A84FF;
-    color:white;
     border:none;
-    padding:10px 18px;
-    border-radius:12px;
+    padding:8px 12px;
+    border-radius:10px;
 }
 
-.owner{
-    background:red;
-}
+.upload{background:#444;color:white;}
+.download{background:#0A84FF;color:white;}
 </style>
 </head>
 
 <body>
 
-<!-- البداية -->
+<!-- شاشة البداية -->
 <div id="splash">
     <div class="title">harper hack ios</div>
     <div class="sub">مرحبا بك</div>
 
-    <button id="enter" onclick="enterSite()">
+    <button id="enter" onclick="enter()">
         دخول
     </button>
 </div>
 
-<!-- المحتوى -->
+<!-- المتجر -->
 <div id="main">
 
     <div class="app">
         <div>Snapchat</div>
-        <button onclick="download('snapchat.ipa')">تنزيل</button>
+        <div>
+            <button class="upload" onclick="selectFile('snap')">رفع</button>
+            <button class="download" onclick="download('snap')">تنزيل</button>
+        </div>
     </div>
 
     <div class="app">
         <div>Instagram</div>
-        <button onclick="download('instagram.ipa')">تنزيل</button>
-    </div>
-
-    <div class="app">
-        <div>رفع ملف</div>
-        <button class="owner" onclick="ownerAccess()">رفع</button>
+        <div>
+            <button class="upload" onclick="selectFile('insta')">رفع</button>
+            <button class="download" onclick="download('insta')">تنزيل</button>
+        </div>
     </div>
 
 </div>
 
+<input type="file" id="file" style="display:none">
+
 <script>
 
-// دخول
-function enterSite(){
+let files = {};
+let current = "";
+
+// دخول + حركة
+function enter(){
     let audio = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
     audio.play();
 
@@ -137,23 +136,34 @@ function enterSite(){
     document.getElementById("main").style.top = "0";
 }
 
-// تحميل
-function download(file){
-    let audio = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
-    audio.play();
-
-    window.location.href = file;
+// رفع ملف
+function selectFile(app){
+    current = app;
+    document.getElementById("file").click();
 }
 
-// كلمة سر المالك
-function ownerAccess(){
-    let pass = prompt("ادخل كلمة السر:");
+// حفظ الملف
+document.getElementById("file").onchange = function(e){
+    files[current] = e.target.files[0];
+    alert("تم رفع الملف");
+};
 
-    if(pass === "0617i3z"){
-        alert("مرحبًا بالمالك ✔️");
-    }else{
-        alert("كلمة السر خطأ ❌");
+// تنزيل
+function download(app){
+
+    let file = files[app];
+
+    if(!file){
+        alert("حاليا مافي نسخه له");
+        return;
     }
+
+    let url = URL.createObjectURL(file);
+
+    let a = document.createElement("a");
+    a.href = url;
+    a.download = file.name;
+    a.click();
 }
 
 </script>
