@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+
+   <!DOCTYPE html>
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Store</title>
+<title>Harper Hack iOS</title>
 
 <style>
 body{
@@ -15,8 +16,18 @@ body{
     color:white;
 }
 
+/* العنوان العلوي */
+#topTitle{
+    position:absolute;
+    top:15px;
+    width:100%;
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+}
+
 /* الصفحة الأولى */
-#splash{
+#login{
     position:absolute;
     width:100%;
     height:100%;
@@ -27,7 +38,7 @@ body{
     transition:0.8s;
 }
 
-.title{
+.bigTitle{
     font-size:40px;
     font-weight:bold;
 }
@@ -37,13 +48,21 @@ body{
     margin-top:10px;
 }
 
-#enter{
-    margin-top:25px;
+input{
+    margin-top:20px;
+    padding:10px;
+    border-radius:10px;
+    border:none;
+    text-align:center;
+}
+
+button{
+    margin-top:15px;
     background:white;
     color:black;
     border:none;
-    padding:12px 30px;
-    border-radius:15px;
+    padding:10px 25px;
+    border-radius:12px;
 }
 
 /* الصفحة الثانية */
@@ -53,53 +72,66 @@ body{
     width:100%;
     height:100%;
     transition:0.8s;
-    overflow-y:auto;
-    padding-top:40px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding-top:60px;
 }
 
-/* تطبيق */
 .app{
     width:90%;
     max-width:400px;
-    margin:10px auto;
     background:#111;
     padding:15px;
+    margin:10px;
     border-radius:20px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    transition:0.2s;
 }
 
-.app:active{
-    transform:scale(0.95);
+.upload{
+    background:#444;
+    color:white;
 }
 
-/* أزرار */
-button{
-    border:none;
-    padding:8px 12px;
-    border-radius:10px;
+.download{
+    background:#0A84FF;
+    color:white;
 }
 
-.upload{background:#444;color:white;}
-.download{background:#0A84FF;color:white;}
+/* رسالة النسخ */
+#copied{
+    position:fixed;
+    bottom:30px;
+    background:#111;
+    padding:10px 20px;
+    border-radius:12px;
+    display:none;
+}
 </style>
 </head>
 
 <body>
 
-<!-- شاشة البداية -->
-<div id="splash">
-    <div class="title">harper hack ios</div>
-    <div class="sub">مرحبا بك</div>
-
-    <button id="enter" onclick="enter()">
-        دخول
-    </button>
+<!-- العنوان -->
+<div id="topTitle" onclick="copyLink()">
+Harper Hack iOS
 </div>
 
-<!-- المتجر -->
+<!-- صفحة الدخول -->
+<div id="login">
+
+    <div class="bigTitle">harper hack ios</div>
+    <div class="sub">مرحبا بك</div>
+
+    <input type="password" id="pass" placeholder="كلمة السر">
+
+    <button onclick="enter()">دخول</button>
+
+</div>
+
+<!-- الصفحة الرئيسية -->
 <div id="main">
 
     <div class="app">
@@ -110,15 +142,9 @@ button{
         </div>
     </div>
 
-    <div class="app">
-        <div>Instagram</div>
-        <div>
-            <button class="upload" onclick="selectFile('insta')">رفع</button>
-            <button class="download" onclick="download('insta')">تنزيل</button>
-        </div>
-    </div>
-
 </div>
+
+<div id="copied">تم النسخ ✅</div>
 
 <input type="file" id="file" style="display:none">
 
@@ -127,34 +153,49 @@ button{
 let files = {};
 let current = "";
 
-// دخول + حركة
+/* دخول + حفظ كلمة السر */
 function enter(){
-    let audio = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
-    audio.play();
 
-    document.getElementById("splash").style.top = "-100%";
+    let pass = document.getElementById("pass").value;
+
+    if(pass !== "0617i3z"){
+        alert("كلمة السر خطأ ❌");
+        return;
+    }
+
+    localStorage.setItem("auth","ok");
+
+    document.getElementById("login").style.top = "-100%";
     document.getElementById("main").style.top = "0";
 }
 
-// رفع ملف
+/* إذا كان داخل مسبقًا */
+window.onload = function(){
+    if(localStorage.getItem("auth") === "ok"){
+        document.getElementById("login").style.top = "-100%";
+        document.getElementById("main").style.top = "0";
+    }
+};
+
+/* رفع ملف */
 function selectFile(app){
     current = app;
     document.getElementById("file").click();
 }
 
-// حفظ الملف
+/* حفظ الملف */
 document.getElementById("file").onchange = function(e){
     files[current] = e.target.files[0];
-    alert("تم رفع الملف");
+    alert("تم رفع الملف ✔️");
 };
 
-// تنزيل
+/* تنزيل */
 function download(app){
 
     let file = files[app];
 
     if(!file){
-        alert("حاليا مافي نسخه له");
+        alert("مافي نسخه منه الحين");
         return;
     }
 
@@ -164,6 +205,19 @@ function download(app){
     a.href = url;
     a.download = file.name;
     a.click();
+}
+
+/* نسخ الرابط */
+function copyLink(){
+
+    navigator.clipboard.writeText("https://t.me/ipa_Harper");
+
+    let msg = document.getElementById("copied");
+    msg.style.display = "block";
+
+    setTimeout(()=>{
+        msg.style.display = "none";
+    },2000);
 }
 
 </script>
