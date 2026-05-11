@@ -1,10 +1,93 @@
-<button onclick="install()">
-تنزيل
-</button>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apps Store</title>
+
+<style>
+body{
+    margin:0;
+    background:#000;
+    font-family:Arial;
+    color:white;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+/* العنوان */
+h1{
+    margin:20px;
+}
+
+/* المربعات */
+.app{
+    width:90%;
+    max-width:350px;
+    background:#111;
+    margin:10px;
+    padding:15px;
+    border-radius:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    transition:0.2s;
+}
+
+.app:active{
+    transform:scale(0.95);
+}
+
+/* اسم التطبيق */
+.name{
+    font-size:20px;
+}
+
+/* زر التنزيل */
+button{
+    background:#0A84FF;
+    border:none;
+    padding:10px 18px;
+    border-radius:12px;
+    color:white;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+button:active{
+    transform:scale(0.9);
+}
+</style>
+</head>
+
+<body>
+
+<h1>Apps Store</h1>
+
+<!-- سناب -->
+<div class="app">
+    <div class="name">Snapchat</div>
+    <button onclick="download('snapchat.ipa')">تنزيل</button>
+</div>
+
+<!-- مثال ثاني -->
+<div class="app">
+    <div class="name">Instagram</div>
+    <button onclick="download('instagram.ipa')">تنزيل</button>
+</div>
 
 <script>
-function install(){
-  window.location.href =
-  "itms-services://?action=download-manifest&url=https://your-site.com/manifest.plist";
+function download(file){
+
+    // صوت عند الضغط
+    let audio = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
+    audio.play();
+
+    // تحميل الملف
+    window.location.href = file;
 }
 </script>
+
+</body>
+</html>
