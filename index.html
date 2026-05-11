@@ -15,7 +15,7 @@ body{
     color:white;
 }
 
-/* الصفحة الأولى */
+/* شاشة البداية */
 #splash{
     position:absolute;
     width:100%;
@@ -28,53 +28,81 @@ body{
 }
 
 .title{
-    font-size:40px;
+    font-size:42px;
     font-weight:bold;
 }
 
 .sub{
     font-size:16px;
-    margin-top:10px;
     opacity:0.7;
+    margin-top:10px;
 }
 
-#enterBtn{
-    margin-top:30px;
+#enter{
+    margin-top:25px;
     background:white;
     color:black;
     border:none;
     padding:12px 30px;
     border-radius:15px;
     font-size:18px;
-    cursor:pointer;
     transition:0.2s;
 }
 
-#enterBtn:active{
+#enter:active{
     transform:scale(0.9);
 }
 
-/* الصفحة الثانية */
+/* الصفحة الرئيسية */
 #main{
     position:absolute;
     top:100%;
     width:100%;
     height:100%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
     transition:1s;
+    display:flex;
     flex-direction:column;
+    align-items:center;
+    padding-top:50px;
 }
 
-.download{
-    background:white;
-    color:black;
+/* مربع التطبيق */
+.app{
+    width:90%;
+    max-width:350px;
+    background:#111;
+    margin:10px;
+    padding:15px;
+    border-radius:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    transition:0.2s;
+}
+
+.app:active{
+    transform:scale(0.95);
+    background:#222;
+}
+
+/* الأزرار */
+button{
+    background:#0A84FF;
+    color:white;
     border:none;
-    padding:12px 30px;
-    border-radius:15px;
-    font-size:18px;
+    padding:10px 18px;
+    border-radius:12px;
+    font-size:14px;
     cursor:pointer;
+}
+
+.owner{
+    background:red;
+}
+
+/* حركة ناعمة */
+.fadeUp{
+    transform:translateY(-100%);
 }
 </style>
 </head>
@@ -86,7 +114,7 @@ body{
     <div class="title">harper hack ios</div>
     <div class="sub">مرحبا بك</div>
 
-    <button id="enterBtn" onclick="enterSite()">
+    <button id="enter" onclick="enterSite()">
         دخول
     </button>
 </div>
@@ -94,35 +122,59 @@ body{
 <!-- الصفحة الرئيسية -->
 <div id="main">
 
-    <h2>Snapchat</h2>
+    <div class="app" onclick="clickEffect(this)">
+        <div>Snapchat</div>
+        <button onclick="download(event,'snapchat.ipa')">تنزيل</button>
+    </div>
 
-    <button class="download" onclick="downloadFile()">
-        تنزيل
-    </button>
+    <div class="app" onclick="clickEffect(this)">
+        <div>Instagram</div>
+        <button onclick="download(event,'instagram.ipa')">تنزيل</button>
+    </div>
+
+    <div class="app" onclick="ownerOnly(event)">
+        <div>رفع ملف (للمالك)</div>
+        <button class="owner">رفع</button>
+    </div>
 
 </div>
 
 <script>
 
+// دخول مع حركة
 function enterSite(){
+    playSound();
 
-    // صوت
-    let audio = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
-    audio.play();
-
-    // حركة انتقال
     document.getElementById("splash").style.top = "-100%";
     document.getElementById("main").style.top = "0";
-
 }
 
-function downloadFile(){
-
+// صوت
+function playSound(){
     let audio = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
     audio.play();
+}
 
-    window.location.href = "snapchat.ipa";
+// تحميل ملف
+function download(e,file){
+    e.stopPropagation();
+    playSound();
+    window.location.href = file;
+}
 
+// زر المالك
+function ownerOnly(e){
+    e.stopPropagation();
+    playSound();
+    alert("هذا فقط للمالك");
+}
+
+// حركة عند لمس المربع
+function clickEffect(el){
+    el.style.transform = "scale(0.95)";
+    setTimeout(()=>{
+        el.style.transform = "scale(1)";
+    },150);
 }
 
 </script>
