@@ -15,7 +15,7 @@ body{
     color:white;
 }
 
-/* شاشة البداية */
+/* البداية */
 #splash{
     position:absolute;
     width:100%;
@@ -46,11 +46,6 @@ body{
     padding:12px 30px;
     border-radius:15px;
     font-size:18px;
-    transition:0.2s;
-}
-
-#enter:active{
-    transform:scale(0.9);
 }
 
 /* الصفحة الرئيسية */
@@ -66,7 +61,7 @@ body{
     padding-top:50px;
 }
 
-/* مربع التطبيق */
+/* المربع */
 .app{
     width:90%;
     max-width:350px;
@@ -82,7 +77,6 @@ body{
 
 .app:active{
     transform:scale(0.95);
-    background:#222;
 }
 
 /* الأزرار */
@@ -92,24 +86,17 @@ button{
     border:none;
     padding:10px 18px;
     border-radius:12px;
-    font-size:14px;
-    cursor:pointer;
 }
 
 .owner{
     background:red;
-}
-
-/* حركة ناعمة */
-.fadeUp{
-    transform:translateY(-100%);
 }
 </style>
 </head>
 
 <body>
 
-<!-- شاشة البداية -->
+<!-- البداية -->
 <div id="splash">
     <div class="title">harper hack ios</div>
     <div class="sub">مرحبا بك</div>
@@ -119,62 +106,54 @@ button{
     </button>
 </div>
 
-<!-- الصفحة الرئيسية -->
+<!-- المحتوى -->
 <div id="main">
 
-    <div class="app" onclick="clickEffect(this)">
+    <div class="app">
         <div>Snapchat</div>
-        <button onclick="download(event,'snapchat.ipa')">تنزيل</button>
+        <button onclick="download('snapchat.ipa')">تنزيل</button>
     </div>
 
-    <div class="app" onclick="clickEffect(this)">
+    <div class="app">
         <div>Instagram</div>
-        <button onclick="download(event,'instagram.ipa')">تنزيل</button>
+        <button onclick="download('instagram.ipa')">تنزيل</button>
     </div>
 
-    <div class="app" onclick="ownerOnly(event)">
-        <div>رفع ملف (للمالك)</div>
-        <button class="owner">رفع</button>
+    <div class="app">
+        <div>رفع ملف</div>
+        <button class="owner" onclick="ownerAccess()">رفع</button>
     </div>
 
 </div>
 
 <script>
 
-// دخول مع حركة
+// دخول
 function enterSite(){
-    playSound();
+    let audio = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
+    audio.play();
 
     document.getElementById("splash").style.top = "-100%";
     document.getElementById("main").style.top = "0";
 }
 
-// صوت
-function playSound(){
+// تحميل
+function download(file){
     let audio = new Audio("https://www.soundjay.com/buttons/sounds/button-16.mp3");
     audio.play();
-}
 
-// تحميل ملف
-function download(e,file){
-    e.stopPropagation();
-    playSound();
     window.location.href = file;
 }
 
-// زر المالك
-function ownerOnly(e){
-    e.stopPropagation();
-    playSound();
-    alert("هذا فقط للمالك");
-}
+// كلمة سر المالك
+function ownerAccess(){
+    let pass = prompt("ادخل كلمة السر:");
 
-// حركة عند لمس المربع
-function clickEffect(el){
-    el.style.transform = "scale(0.95)";
-    setTimeout(()=>{
-        el.style.transform = "scale(1)";
-    },150);
+    if(pass === "0617i3z"){
+        alert("مرحبًا بالمالك ✔️");
+    }else{
+        alert("كلمة السر خطأ ❌");
+    }
 }
 
 </script>
