@@ -3,59 +3,331 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Harper Store</title>
+<title>Harper hack ios</title>
 
 <style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
 body{
-    margin:0;
-    font-family:Arial;
-    background:#000;
-    color:#fff;
-    text-align:center;
-    padding-top:80px;
+background:#000;
+color:white;
+overflow-x:hidden;
+min-height:100vh;
 }
 
-h1{
-    font-size:30px;
+/* خلفية */
+.bg{
+position:fixed;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at top,#222 0%,#000 60%);
+z-index:-1;
 }
 
-.btn{
-    display:inline-block;
-    margin-top:30px;
-    padding:15px 25px;
-    background:#fff;
-    color:#000;
-    border-radius:12px;
-    text-decoration:none;
-    font-size:18px;
-    transition:0.2s;
+/* رسالة النسخ */
+.toast{
+position:fixed;
+top:-100px;
+left:50%;
+transform:translateX(-50%);
+background:#111;
+border:1px solid #333;
+padding:14px 25px;
+border-radius:16px;
+backdrop-filter:blur(10px);
+transition:.4s;
+z-index:999;
+overflow:hidden;
 }
 
-.btn:active{
-    transform:scale(0.95);
+.toast.show{
+top:20px;
 }
 
-.small{
-    margin-top:20px;
-    opacity:0.6;
-    font-size:13px;
+.bar{
+position:absolute;
+bottom:0;
+left:0;
+height:3px;
+background:white;
+width:100%;
+animation:timer 5s linear forwards;
 }
+
+@keyframes timer{
+from{width:100%;}
+to{width:0%;}
+}
+
+/* الواجهة */
+.hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+padding:25px;
+text-align:center;
+transition:1s;
+}
+
+.title{
+font-size:42px;
+font-weight:bold;
+margin-bottom:15px;
+letter-spacing:2px;
+cursor:pointer;
+transition:.3s;
+}
+
+.title:active{
+transform:scale(.95);
+}
+
+.desc{
+max-width:340px;
+opacity:.75;
+line-height:1.8;
+font-size:15px;
+}
+
+.line{
+width:120px;
+height:2px;
+background:white;
+margin:20px 0;
+border-radius:50px;
+opacity:.8;
+}
+
+/* زر الدخول */
+.enter-btn{
+padding:16px 45px;
+border:none;
+border-radius:18px;
+font-size:18px;
+font-weight:bold;
+background:white;
+color:black;
+transition:.25s;
+box-shadow:0 0 25px rgba(255,255,255,.15);
+}
+
+.enter-btn:active{
+transform:scale(.92);
+}
+
+.telegram{
+margin-top:25px;
+opacity:.8;
+font-size:14px;
+cursor:pointer;
+transition:.3s;
+}
+
+.telegram:hover{
+opacity:1;
+}
+
+/* التطبيقات */
+.apps{
+padding:25px;
+display:none;
+animation:fade .7s ease;
+}
+
+@keyframes fade{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+.card{
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.08);
+border-radius:24px;
+padding:22px;
+margin-bottom:18px;
+backdrop-filter:blur(10px);
+transition:.25s;
+}
+
+.card:active{
+transform:scale(.97);
+}
+
+.app-name{
+font-size:23px;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.install-btn{
+display:inline-block;
+padding:13px 28px;
+background:white;
+color:black;
+border-radius:14px;
+text-decoration:none;
+font-weight:bold;
+transition:.25s;
+}
+
+.install-btn:active{
+transform:scale(.92);
+}
+
+.footer{
+text-align:center;
+padding:40px 20px;
+opacity:.7;
+line-height:2;
+font-size:14px;
+}
+
+.footer-line{
+width:140px;
+height:2px;
+background:white;
+margin:20px auto;
+border-radius:50px;
+opacity:.8;
+}
+
 </style>
-
 </head>
 
 <body>
 
-<h1>Harper Hack iOS</h1>
+<div class="bg"></div>
 
-<a class="btn"
-href="itms-services://?action=download-manifest&url=https://YOUR_USERNAME.github.io/YOUR_REPO/manifest.plist">
-تنزيل التطبيق
-</a>
-
-<div class="small">
-سيتم إضافة المزيد
+<!-- رسالة النسخ -->
+<div class="toast" id="toast">
+تم النسخ ✅
+<div class="bar"></div>
 </div>
+
+<!-- الواجهة -->
+<section class="hero" id="hero">
+
+<h1 class="title" onclick="copyTelegram()">
+Harper hack ios
+</h1>
+
+<p class="desc">
+الموقع جميع تطبيقاته (ليس مباشره) فقط سويناه عشان ماتتعب تدور على تطبيقات عندنا اوً عند غيرنا
+</p>
+
+<div class="line"></div>
+
+<button class="enter-btn" onclick="openApps()">
+دخول
+</button>
+
+<p class="telegram"
+onclick="openTelegram()">
+اضغط هنا
+</p>
+
+</section>
+
+<!-- التطبيقات -->
+<section class="apps" id="apps">
+
+<div class="card">
+<div class="app-name">Gemini</div>
+
+<a class="install-btn"
+href="https://www.mediafire.com/file/21ekebsw27k3cwd/Gemini_GeniusHack_1.2026.1710205.ipa/file">
+تثبيت
+</a>
+</div>
+
+<div class="card">
+<div class="app-name">Roblox</div>
+
+<a class="install-btn"
+href="https://www.mediafire.com/file/30snp63kuhvgv3w/%E2%80%8E%E2%81%A8%D8%AF%D9%84%D8%AA%D8%A7-%D8%A7%D9%8A%D9%81%D9%88%D9%86-2.714.1077%E2%81%A9.ipa/file">
+تثبيت
+</a>
+</div>
+
+<div class="card">
+<div class="app-name">Instagram</div>
+
+<a class="install-btn"
+href="https://www.mediafire.com/file/7yhx037m1ounze9/insta+Regram.ipa/file">
+تثبيت
+</a>
+</div>
+
+<div class="footer">
+
+<div class="footer-line"></div>
+
+سيتم اضافة المزيد
+
+<br><br>
+
+اي شي يصير معك ليس لنا علاقه
+
+<div class="footer-line"></div>
+
+</div>
+
+</section>
+
+<script>
+
+function openApps(){
+
+document.getElementById("hero").style.transform =
+"translateY(-100vh)";
+
+setTimeout(()=>{
+document.getElementById("hero").style.display="none";
+document.getElementById("apps").style.display="block";
+},700);
+
+}
+
+function copyTelegram(){
+
+navigator.clipboard.writeText(
+"https://t.me/ipa_Harper"
+);
+
+let toast =
+document.getElementById("toast");
+
+toast.classList.add("show");
+
+setTimeout(()=>{
+toast.classList.remove("show");
+},5000);
+
+}
+
+function openTelegram(){
+window.open(
+"https://t.me/ipa_Harper",
+"_blank"
+);
+}
+
+</script>
 
 </body>
 </html>
