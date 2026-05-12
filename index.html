@@ -2,155 +2,148 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Store</title>
+<title>Harper hack ios</title>
 
 <style>
 body{
     margin:0;
-    background:#000;
-    font-family:Arial;
+    font-family: Arial;
+    background:black;
     color:white;
+    overflow:hidden;
 }
 
-.app{
-    width:90%;
-    max-width:400px;
-    margin:15px auto;
-    background:#111;
-    padding:15px;
-    border-radius:20px;
+/* شاشة البداية */
+#splash{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:black;
     display:flex;
-    justify-content:space-between;
+    flex-direction:column;
+    justify-content:center;
     align-items:center;
+    transition:1s;
 }
 
+h1{
+    font-size:28px;
+}
+
+p{
+    opacity:0.7;
+}
+
+/* زر الدخول */
 button{
+    padding:12px 25px;
+    font-size:18px;
     border:none;
-    padding:8px 12px;
     border-radius:10px;
-    cursor:pointer;
+    background:white;
+    color:black;
+    margin-top:20px;
 }
 
-.upload{background:#444;color:white;}
-.download{background:#0A84FF;color:white;}
+/* المحتوى */
+#app{
+    position:relative;
+    top:100%;
+    transition:1s;
+    padding:20px;
+}
 
-.locked{
-    opacity:0.4;
-    pointer-events:none;
+/* مربع التطبيق */
+.box{
+    background:#111;
+    padding:20px;
+    margin-top:20px;
+    border-radius:15px;
+    transition:0.3s;
+}
+
+.box:active{
+    transform:scale(0.95);
+}
+
+/* رسالة النسخ */
+#toast{
+    position:fixed;
+    top:-50px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#222;
+    padding:10px 20px;
+    border-radius:10px;
+    transition:0.5s;
+}
+
+#bar{
+    height:3px;
+    background:blue;
+    width:100%;
+    position:absolute;
+    bottom:0;
+    left:0;
 }
 </style>
-</head>
 
+</head>
 <body>
 
-<div class="app">
-    <div>Snapchat</div>
-    <div>
-        <button id="uploadBtn" class="upload" onclick="checkAccess('snap')">رفع</button>
-        <button class="download" onclick="download('snap')">تنزيل</button>
-    </div>
+<!-- رسالة النسخ -->
+<div id="toast">
+تم النسخ ✅
+<div id="bar"></div>
 </div>
 
-<input type="file" id="file" style="display:none">
+<!-- شاشة البداية -->
+<div id="splash">
+    <h1 onclick="copyLink()">Harper hack ios</h1>
+    <p>مرحبا بك</p>
+    <button onclick="enter()">دخول</button>
+    <p style="font-size:12px;opacity:0.5">اللغه العربية 🇸🇦</p>
+    <p style="font-size:10px;opacity:0.3">2026</p>
+</div>
+
+<!-- المحتوى -->
+<div id="app">
+
+    <div class="box">
+        <h2>snapchat</h2>
+        <button onclick="window.location.href='YOUR_IPA_LINK'">
+            تنزيل
+        </button>
+    </div>
+
+</div>
 
 <script>
 
-let files = JSON.parse(localStorage.getItem("files") || "{}");
+function enter(){
+    document.getElementById("splash").style.top="-100%";
+    document.getElementById("app").style.top="0";
+}
 
-let wrong = parseInt(localStorage.getItem("wrong") || "0");
-let lockTime = parseInt(localStorage.getItem("lock") || "0");
+/* نسخ الرابط */
+function copyLink(){
+    navigator.clipboard.writeText("https://t.me/ipa_Harper");
 
-let current = "";
+    let toast = document.getElementById("toast");
+    let bar = document.getElementById("bar");
 
-/* رفع */
-function checkAccess(app){
+    toast.style.top="20px";
 
-    let now = Date.now();
-
-    if(lockTime && now < lockTime){
-        alert("تم قفل الزر لمدة ساعة ❌");
-        return;
-    }
-
-    let pass = prompt("ادخل كلمة السر:");
-
-    if(pass === "0617i3z"){
-
-        wrong = 0;
-        localStorage.setItem("wrong","0");
-
-        current = app;
-        document.getElementById("file").click();
-
-    }else{
-
-        wrong++;
-        localStorage.setItem("wrong",wrong);
-
-        alert("كلمة السر خطأ ❌");
-
-        if(wrong >= 3){
-            let lock = Date.now() + (60 * 60 * 1000); // ساعة
-            localStorage.setItem("lock",lock);
-
-            document.getElementById("uploadBtn").classList.add("locked");
-            alert("تم قفل الزر لمدة ساعة 🚫");
+    let time = 5;
+    let interval = setInterval(()=>{
+        bar.style.width = (time*20)+"%";
+        time--;
+        if(time<0){
+            clearInterval(interval);
+            toast.style.top="-50px";
         }
-    }
+    },1000);
 }
-
-/* حفظ ملف دائم */
-document.getElementById("file").onchange = function(e){
-
-    let file = e.target.files[0];
-
-    let reader = new FileReader();
-
-    reader.onload = function(){
-        files[current] = {
-            name:file.name,
-            data:reader.result
-        };
-
-        localStorage.setItem("files",JSON.stringify(files));
-
-        alert("تم رفع الملف ✔️");
-    };
-
-    reader.readAsDataURL(file);
-};
-
-/* تحميل */
-function download(app){
-
-    let file = files[app];
-
-    if(!file){
-        alert("ما فيه نسخه");
-        return;
-    }
-
-    let a = document.createElement("a");
-    a.href = file.data;
-    a.download = file.name;
-    a.click();
-}
-
-/* فك القفل بعد ساعة */
-setInterval(()=>{
-
-    let now = Date.now();
-
-    if(lockTime && now > lockTime){
-        localStorage.removeItem("lock");
-        localStorage.removeItem("wrong");
-
-        document.getElementById("uploadBtn").classList.remove("locked");
-    }
-
-},5000);
 
 </script>
 
