@@ -8,16 +8,18 @@
 <array>
 <dict>
 <key>url</key>
-<string>PUT_IPA_LINK_HERE</string>
+<string>https://www.mediafire.com/file/i0pxoe08uwdqvc5/Gemini_GeniusHack_1.2026.1710205.ipa/file</string>
 </dict>
 </array>
+
 <key>metadata</key>
 <dict>
 <key>bundle-identifier</key>
-<string>com.harper.snapchat</string>
+<string>com.harper.gemini</string>
 <key>title</key>
-<string>Snapchat IPA</string>
+<string>Gemini App</string>
 </dict>
+
 </dict>
 </array>
 </dict>
