@@ -8,77 +8,37 @@
 <style>
 body{
     margin:0;
-    font-family: Arial;
-    background:black;
-    color:white;
-    overflow-x:hidden;
-}
-
-/* الهيدر */
-header{
+    font-family:Arial;
+    background:#000;
+    color:#fff;
     text-align:center;
-    padding:30px 10px;
-    transition:0.6s;
+    padding-top:80px;
 }
 
-header h1{
-    font-size:28px;
-    cursor:pointer;
+h1{
+    font-size:30px;
 }
 
-header p{
+.btn{
+    display:inline-block;
+    margin-top:30px;
+    padding:15px 25px;
+    background:#fff;
+    color:#000;
+    border-radius:12px;
+    text-decoration:none;
+    font-size:18px;
+    transition:0.2s;
+}
+
+.btn:active{
+    transform:scale(0.95);
+}
+
+.small{
+    margin-top:20px;
     opacity:0.6;
-    font-size:14px;
-}
-
-/* الشبكة */
-.container{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:15px;
-    padding:15px;
-}
-
-/* كرت التطبيق */
-.card{
-    background:#111;
-    padding:20px;
-    border-radius:15px;
-    transition:0.3s;
-    position:relative;
-}
-
-.card:active{
-    transform:scale(0.97);
-}
-
-/* زر التنزيل */
-button{
-    padding:10px 15px;
-    border:none;
-    border-radius:10px;
-    background:white;
-    color:black;
-    margin-top:10px;
-    cursor:pointer;
-}
-
-/* حركة ظهور */
-.fade{
-    animation:fadeIn 0.6s ease;
-}
-
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(20px);}
-    to{opacity:1; transform:translateY(0);}
-}
-
-/* footer بسيط */
-footer{
-    text-align:center;
-    opacity:0.4;
-    font-size:12px;
-    padding:20px;
+    font-size:13px;
 }
 </style>
 
@@ -86,51 +46,16 @@ footer{
 
 <body>
 
-<header>
-    <h1 onclick="copyLink()">Harper Store</h1>
-    <p>متجر التطبيقات - مرحباً بك</p>
-</header>
+<h1>Harper Hack iOS</h1>
 
-<div class="container">
+<a class="btn"
+href="itms-services://?action=download-manifest&url=https://YOUR_USERNAME.github.io/YOUR_REPO/manifest.plist">
+تنزيل التطبيق
+</a>
 
-    <!-- Snapchat -->
-    <div class="card fade">
-        <h2>Snapchat</h2>
-        <p>تطبيق سناب شات IPA</p>
-        <button onclick="download('https://YOUR_MEDIAFIRE_LINK')">
-            تنزيل
-        </button>
-    </div>
-
-    <!-- Instagram -->
-    <div class="card fade">
-        <h2>Instagram</h2>
-        <p>تطبيق انستقرام IPA</p>
-        <button onclick="download('https://YOUR_MEDIAFIRE_LINK')">
-            تنزيل
-        </button>
-    </div>
-
+<div class="small">
+سيتم إضافة المزيد
 </div>
-
-<footer>
-    © 2026 Harper Store
-</footer>
-
-<script>
-
-/* فتح التحميل */
-function download(link){
-    window.location.href = link;
-}
-
-/* نسخ الرابط */
-function copyLink(){
-    navigator.clipboard.writeText("https://t.me/ipa_Harper");
-    alert("تم النسخ ✅");
-}
-
-</script>
 
 </body>
 </html>
