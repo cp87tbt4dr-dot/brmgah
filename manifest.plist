@@ -1,26 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
+
 <key>items</key>
 <array>
 <dict>
+
 <key>assets</key>
 <array>
 <dict>
 <key>url</key>
-<string>https://www.mediafire.com/file/i0pxoe08uwdqvc5/Gemini_GeniusHack_1.2026.1710205.ipa/file</string>
+
+<string>
+https://www.mediafire.com/file/i0pxoe08uwdqvc5/Gemini_GeniusHack_1.2026.1710205.ipa/file
+</string>
+
 </dict>
 </array>
 
 <key>metadata</key>
 <dict>
+
 <key>bundle-identifier</key>
 <string>com.harper.gemini</string>
+
 <key>title</key>
-<string>Gemini App</string>
+<string>Gemini GeniusHack</string>
+
 </dict>
 
 </dict>
 </array>
+
 </dict>
 </plist>
