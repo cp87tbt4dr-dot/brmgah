@@ -2,6 +2,7 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Harper hack ios</title>
 
 <style>
@@ -13,8 +14,8 @@ body{
     overflow:hidden;
 }
 
-/* شاشة البداية */
-#splash{
+/* شاشة الدخول */
+#login{
     position:fixed;
     width:100%;
     height:100%;
@@ -24,17 +25,14 @@ body{
     justify-content:center;
     align-items:center;
     transition:1s;
+    text-align:center;
 }
 
 h1{
-    font-size:28px;
+    font-size:32px;
+    cursor:pointer;
 }
 
-p{
-    opacity:0.7;
-}
-
-/* زر الدخول */
 button{
     padding:12px 25px;
     font-size:18px;
@@ -42,28 +40,40 @@ button{
     border-radius:10px;
     background:white;
     color:black;
-    margin-top:20px;
+    margin-top:15px;
+    transition:0.3s;
 }
 
-/* المحتوى */
+button:active{
+    transform:scale(0.9);
+}
+
+/* الصفحة الثانية */
 #app{
-    position:relative;
+    position:fixed;
+    width:100%;
+    height:100%;
     top:100%;
     transition:1s;
     padding:20px;
 }
 
-/* مربع التطبيق */
-.box{
+/* كرت التطبيق */
+.card{
     background:#111;
     padding:20px;
-    margin-top:20px;
     border-radius:15px;
+    margin-top:20px;
     transition:0.3s;
 }
 
-.box:active{
+.card:active{
     transform:scale(0.95);
+}
+
+/* حركة دخول */
+.slideUp{
+    transform:translateY(-100%);
 }
 
 /* رسالة النسخ */
@@ -87,8 +97,8 @@ button{
     left:0;
 }
 </style>
-
 </head>
+
 <body>
 
 <!-- رسالة النسخ -->
@@ -97,8 +107,8 @@ button{
 <div id="bar"></div>
 </div>
 
-<!-- شاشة البداية -->
-<div id="splash">
+<!-- شاشة الدخول -->
+<div id="login">
     <h1 onclick="copyLink()">Harper hack ios</h1>
     <p>مرحبا بك</p>
     <button onclick="enter()">دخول</button>
@@ -106,12 +116,12 @@ button{
     <p style="font-size:10px;opacity:0.3">2026</p>
 </div>
 
-<!-- المحتوى -->
+<!-- التطبيق -->
 <div id="app">
 
-    <div class="box">
-        <h2>snapchat</h2>
-        <button onclick="window.location.href='YOUR_IPA_LINK'">
+    <div class="card">
+        <h2>Snapchat</h2>
+        <button onclick="downloadFile()">
             تنزيل
         </button>
     </div>
@@ -121,8 +131,13 @@ button{
 <script>
 
 function enter(){
-    document.getElementById("splash").style.top="-100%";
+    document.getElementById("login").classList.add("slideUp");
     document.getElementById("app").style.top="0";
+}
+
+/* رابط GoFile */
+function downloadFile(){
+    window.location.href = "https://gofile.io/d/xxxxxxx";
 }
 
 /* نسخ الرابط */
